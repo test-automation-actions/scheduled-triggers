@@ -1,4 +1,4 @@
-name: Schedule Trigger for Repo2 Dev
+name: Schedule Trigger for Repo2 Unt
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   trigger:
-    uses: ./.github/workflows/templates/common-schedule.yml
+    uses: ./.github/workflows/common-schedule.yml
     with:
       repo: 'repo2'
-      environment: 'dev'
+      environment: 'unt'
