@@ -2,7 +2,7 @@ name: Schedule Trigger for Repo1 Unt
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Adjust the schedule as needed
+    - cron: '*/10 * * * *'  # Adjust the schedule as needed
 
 jobs:
   trigger:
