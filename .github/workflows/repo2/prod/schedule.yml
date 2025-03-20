@@ -1,0 +1,12 @@
+name: Schedule Trigger for Repo2 Prod
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Adjust the schedule as needed
+
+jobs:
+  trigger:
+    uses: ./.github/workflows/templates/common-schedule.yml
+    with:
+      repo: 'repo2'
+      environment: 'prod'

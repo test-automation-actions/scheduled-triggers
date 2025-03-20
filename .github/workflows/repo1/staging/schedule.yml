@@ -1,0 +1,12 @@
+name: Schedule Trigger for Repo1 Staging
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Adjust the schedule as needed
+
+jobs:
+  trigger:
+    uses: ./.github/workflows/templates/common-schedule.yml
+    with:
+      repo: 'repo1'
+      environment: 'staging'

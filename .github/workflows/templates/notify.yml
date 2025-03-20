@@ -1,0 +1,12 @@
+name: Notify
+
+on:
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Notification
+        run: echo "Notification sent for ${{ github.event.inputs.repo }} in ${{ github.event.inputs.environment }} environment."

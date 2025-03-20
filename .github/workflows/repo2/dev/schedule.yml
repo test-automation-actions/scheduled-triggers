@@ -1,0 +1,12 @@
+name: Schedule Trigger for Repo2 Dev
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Adjust the schedule as needed
+
+jobs:
+  trigger:
+    uses: ./.github/workflows/templates/common-schedule.yml
+    with:
+      repo: 'repo2'
+      environment: 'dev'

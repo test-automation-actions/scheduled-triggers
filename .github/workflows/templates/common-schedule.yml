@@ -1,0 +1,20 @@
+name: Common Schedule Trigger
+
+on:
+  workflow_call:
+    inputs:
+      repo:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+
+jobs:
+  trigger-workflow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Workflow in Another Repository
+        run: |
+          ./scripts/trigger_dispatch.sh ${{ inputs.repo }} ${{ inputs.environment }}
