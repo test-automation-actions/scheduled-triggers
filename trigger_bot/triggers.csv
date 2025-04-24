@@ -1,5 +1,5 @@
 repo,workflow_file,branch,cron,inputs
 karate-test-demo,test-execution.yml,develop,14 13 * * *
 karate-test-demo,sample-trigger.yml,develop,20 15 * * *
-karate-test-demo,list-variable.yml,develop,*/10 * * * *,{"tags": "1;2;3;4"}
+karate-test-demo,list-variable.yml,develop,*/10 * * * *,"{\"tags\": \"1;2;3;4\"}"
 
