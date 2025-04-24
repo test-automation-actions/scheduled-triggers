@@ -1,0 +1,29 @@
+name: Scheduled Trigger Bot
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"  # Trigger every 10 minutes
+  workflow_dispatch:       # Allow manual trigger
+
+jobs:
+  trigger-workflows:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      GITHUB_ORG: test-automation-actions  # <-- Update this with your GitHub org/user
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install croniter requests
+
+      - name: Run trigger bot
+        run: python trigger_bot/github_trigger.py
