@@ -15,7 +15,7 @@ headers = {
     "Accept": "application/vnd.github+json"
 }
 
-# Memory-only last trigger tracking
+# Memory-only trigger tracking
 last_trigger_times = {}
 
 def should_trigger_by_cron(cron_expr, now, repo):
@@ -31,7 +31,7 @@ def should_trigger_by_cron(cron_expr, now, repo):
         return True
     return False
 
-def trigger_workflow(repo, workflow_file, branch, environment, inputs_json):
+def trigger_workflow(repo, workflow_file, branch, inputs_json):
     url = f"https://api.github.com/repos/{GITHUB_ORG}/{repo}/actions/workflows/{workflow_file}/dispatches"
 
     try:
@@ -40,14 +40,7 @@ def trigger_workflow(repo, workflow_file, branch, environment, inputs_json):
         print(f"[❌] Invalid JSON in repo {repo}: {e}")
         return
 
-    # Optional: inject environment if present
-    if environment:
-        inputs["environment"] = environment
-
-    payload = {
-        "ref": branch
-    }
-
+    payload = {"ref": branch}
     if inputs:
         payload["inputs"] = inputs
 
@@ -76,7 +69,6 @@ def main():
                     repo=row["repo"],
                     workflow_file=row["workflow_file"],
                     branch=row["branch"],
-                    environment=row.get("environment", ""),
                     inputs_json=row.get("inputs", "")
                 )
 
