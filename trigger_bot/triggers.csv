@@ -1,2 +1,2 @@
 repo,workflow_file,branch,cron
-karate-test-demo,test-execution.yml,develop,*/10 * * * *
+karate-test-demo,test-execution.yml,develop,20 13 * * *
