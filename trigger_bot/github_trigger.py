@@ -54,7 +54,7 @@ def main():
 
             # Skip if workflow is disabled
             if enabled != "true":
-                print(f"⏭ Workflow for repo '{repo}' is disabled. Skipping.")
+                print(f"⏭ '{row["workflow_file"]}' Workflow for repo '{repo}' is disabled. Skipping.")
                 continue
 
             if repo in last_trigger_times:
