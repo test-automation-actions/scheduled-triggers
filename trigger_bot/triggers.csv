@@ -1,4 +1,2 @@
-repo,workflow_file,branch,environment,cron,inputs
-repo1,deploy.yml,main,staging,*/10 * * * *,"{\"param1\": \"value1\", \"param2\": \"value2\"}"
-repo2,release.yml,main,production,0 14 * * *,"{\"release_type\": \"hotfix\"}"
-repo3,build.yml,dev,dev-env,0 3 * * *,"{}"
+repo,workflow_file,branch,environment,cron
+karate-test-demo,test-execution.yml,develop,staging,*/10 * * * *
