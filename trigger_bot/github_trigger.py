@@ -51,10 +51,11 @@ def main():
             repo = row["repo"]
             cron_expr = row["cron"]
             enabled = row.get("enabled", "false").strip().lower()
+            workflow_file = row["workflow_file"]
 
             # Skip if workflow is disabled
             if enabled != "true":
-                print(f"⏭ '{row["workflow_file"]}' Workflow for repo '{repo}' is disabled. Skipping.")
+                print(f"⏭ {workflow_file} Workflow for repo '{repo}' is disabled. Skipping.")
                 continue
 
             if repo in last_trigger_times:
