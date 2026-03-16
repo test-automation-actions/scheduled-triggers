@@ -1,0 +1,17 @@
+name: Pipeline 2 - Deploy
+
+on:
+  workflow_run:
+    workflows: ["Pipeline 1 - Build"]
+    types:
+      - completed
+
+jobs:
+  deploy-job:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start Deployment
+        run: |
+          echo "Pipeline 1 completed successfully"
+          echo "Starting deployment..."
