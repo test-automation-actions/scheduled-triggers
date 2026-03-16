@@ -1,6 +1,7 @@
 name: Pipeline 1 - Build
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
