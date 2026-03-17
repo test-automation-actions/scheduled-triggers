@@ -1,0 +1,18 @@
+name: Downstream Pipeline
+
+on:
+  workflow_run:
+    workflows: 
+      - Pipeline 1 - Build
+      - Pipeline 2 - Build
+    types:
+      - completed
+
+jobs:
+  deploy-job:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print triggering pipeline name
+        run: |
+          echo "Triggered by pipeline: ${{ github.event.workflow_run.name }}"
