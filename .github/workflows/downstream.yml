@@ -10,9 +10,15 @@ on:
 
 jobs:
   deploy-job:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: >
+      (github.event.workflow_run.conclusion == 'success' &&
+      startsWith(github.event.workflow_run.head_branch, 'release-') &&
+      github.event.workflow_run.event != 'pull_request')
     runs-on: ubuntu-latest
+
     steps:
       - name: Print triggering pipeline name
         run: |
           echo "Triggered by pipeline: ${{ github.event.workflow_run.name }}"
+          echo "Branch: ${{ github.event.workflow_run.head_branch }}"
+          echo "Event: ${{ github.event.workflow_run.event }}"
