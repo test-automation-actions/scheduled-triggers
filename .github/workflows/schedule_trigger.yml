@@ -1,4 +1,4 @@
-name: Scheduled Trigger Bot
+name: Scheduled Trigger Bot Test
 
 on:
   schedule:
