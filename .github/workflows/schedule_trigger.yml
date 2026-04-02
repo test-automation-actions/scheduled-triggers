@@ -27,3 +27,4 @@ jobs:
 
       - name: Run trigger bot
         run: python trigger_bot/github_trigger.py
+
