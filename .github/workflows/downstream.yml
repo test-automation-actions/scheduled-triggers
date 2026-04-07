@@ -27,6 +27,13 @@ jobs:
       - name: Dump workflow_run
         run: echo '${{ toJson(github.event.workflow_run) }}'
 
+      - name: Dump github event
+        run: echo '${{ toJson(github.event) }}'
+
+      
+      
+      
+
 
 
 
