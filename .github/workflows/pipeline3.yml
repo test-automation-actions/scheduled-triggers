@@ -12,7 +12,7 @@ on:
 jobs:
   build-job:
     if: >
-      (github.event_name == 'create' && startsWith(github.ref, 'refs/heads/release/')) ||
+      (github.event_name == 'create' && startsWith(github.ref, 'refs/heads/release-')) ||
       (github.event_name == 'pull_request' &&
         (
           (github.base_ref == 'development' &&
@@ -24,7 +24,7 @@ jobs:
             github.event.action == 'closed' &&
             github.event.pull_request.merged == true
           ) ||
-          (startsWith(github.base_ref, 'release/') &&
+          (startsWith(github.base_ref, 'release-') &&
             (
               ((github.event.action == 'opened' || github.event.action == 'synchronize') &&
                 (
@@ -51,7 +51,7 @@ jobs:
               )
             ) &&
             (
-              startsWith(github.head_ref, 'release/') ||
+              startsWith(github.head_ref, 'release-') ||
               startsWith(github.head_ref, 'revert-')
             )
           ) ||
