@@ -1,0 +1,75 @@
+name: Pipeline 3 - Build
+
+on:
+  pull_request:
+    branches:
+      - release-*
+  push:
+    branches:
+      - release-*
+  workflow_dispatch:
+
+jobs:
+  build-job:
+    if: >
+      (github.event_name == 'create' && startsWith(github.ref, 'refs/heads/release-')) ||
+      (github.event_name == 'pull_request' &&
+        (
+          (github.base_ref == 'development' &&
+            (
+              github.head_ref == 'master' ||
+              startsWith(github.head_ref, 'feature/') ||
+              startsWith(github.head_ref, 'revert-')
+            ) &&
+            github.event.action == 'closed' &&
+            github.event.pull_request.merged == true
+          ) ||
+          (startsWith(github.base_ref, 'release-') &&
+            (
+              ((github.event.action == 'opened' || github.event.action == 'synchronize') &&
+                (
+                  github.head_ref == 'development' ||
+                  startsWith(github.head_ref, 'feature/') ||
+                  startsWith(github.head_ref, 'revert-')
+                )
+              ) ||
+              (github.event.action == 'closed' &&
+                github.event.pull_request.merged == true &&
+                (
+                  github.head_ref == 'development' ||
+                  startsWith(github.head_ref, 'feature/') ||
+                  startsWith(github.head_ref, 'revert-')
+                )
+              )
+            )
+          ) ||
+          (github.base_ref == 'master' &&
+            (
+              github.event.action == 'opened' || github.event.action == 'synchronize' ||
+              (github.event.action == 'closed' &&
+                github.event.pull_request.merged == true
+              )
+            ) &&
+            (
+              startsWith(github.head_ref, 'release-') ||
+              startsWith(github.head_ref, 'revert-')
+            )
+          ) ||
+          (github.base_ref == 'development' &&
+            github.head_ref == 'master' &&
+            github.event.action == 'closed' &&
+            github.event.pull_request.merged == true
+          )
+        )
+      )
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Build
+        run: |
+          echo "Running build process..."
+          sleep 5
+          echo "Build completed"

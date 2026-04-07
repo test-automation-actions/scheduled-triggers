@@ -5,6 +5,7 @@ on:
     workflows: 
       - Pipeline 1 - Build
       - Pipeline 2 - Build
+      - Pipeline 3 - Build
     types:
       - completed
 
