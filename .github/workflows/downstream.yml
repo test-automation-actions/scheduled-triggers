@@ -51,7 +51,7 @@ jobs:
             core.setOutput("run", "false");
 
       - name: Print triggering pipeline name
-        if: steps.validate.outputs.run == 'true'
+        if: steps.find_pr.outputs.run == 'true'
         run: |
           echo "Triggered by pipeline: ${{ github.event.workflow_run.name }}"
           echo "Branch: ${{ github.event.workflow_run.head_branch }}"
