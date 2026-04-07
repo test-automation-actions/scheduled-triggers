@@ -1,4 +1,4 @@
-name: Scheduled Trigger Bot
+name: Scheduled Trigger Bot Test
 
 on:
   schedule:
@@ -27,3 +27,4 @@ jobs:
 
       - name: Run trigger bot
         run: python trigger_bot/github_trigger.py
+
