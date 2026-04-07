@@ -24,7 +24,7 @@ jobs:
       (github.event_name == 'create' && startsWith(github.ref, 'refs/heads/release-')) ||
       (github.event_name == 'pull_request' &&
         (
-          (github.base_ref == 'development' &&
+          (github.base_ref == 'develop' &&
             (
               github.head_ref == 'master' ||
               startsWith(github.head_ref, 'feature/') ||
@@ -37,7 +37,7 @@ jobs:
             (
               ((github.event.action == 'opened' || github.event.action == 'synchronize') &&
                 (
-                  github.head_ref == 'development' ||
+                  github.head_ref == 'develop' ||
                   startsWith(github.head_ref, 'feature/') ||
                   startsWith(github.head_ref, 'revert-')
                 )
@@ -45,7 +45,7 @@ jobs:
               (github.event.action == 'closed' &&
                 github.event.pull_request.merged == true &&
                 (
-                  github.head_ref == 'development' ||
+                  github.head_ref == 'develop' ||
                   startsWith(github.head_ref, 'feature/') ||
                   startsWith(github.head_ref, 'revert-')
                 )
@@ -64,7 +64,7 @@ jobs:
               startsWith(github.head_ref, 'revert-')
             )
           ) ||
-          (github.base_ref == 'development' &&
+          (github.base_ref == 'develop' &&
             github.head_ref == 'master' &&
             github.event.action == 'closed' &&
             github.event.pull_request.merged == true
