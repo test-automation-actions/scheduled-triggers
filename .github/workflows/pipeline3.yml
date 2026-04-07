@@ -1,13 +1,21 @@
 name: Pipeline 3 - Build
 
+# on:
+#   pull_request:
+#     branches:
+#       - release-*
+#   push:
+#     branches:
+#       - release-*
+#   workflow_dispatch:
+
 on:
   pull_request:
+    types: ['opened', 'reopened', 'synchronize', 'closed']
     branches:
-      - release-*
-  push:
-    branches:
-      - release-*
-  workflow_dispatch:
+      - 'release-*'
+      - 'master'
+  create:
 
 jobs:
   build-job:
