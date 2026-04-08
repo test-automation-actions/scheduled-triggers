@@ -74,19 +74,6 @@ jobs:
               per_page: 5
             });
 
-            # for (const pr of prs) {
-            #   console.log(`Checking PR: ${pr.head.ref} -> ${pr.base.ref}, merged: ${pr.merged_at}`);
-
-            #   if (
-            #     pr.merged_at &&
-            #     pr.head.ref === source &&
-            #     pr.base.ref.startsWith(prefix)
-            #   ) {
-            #     shouldRun = true;
-            #     console.log(`✅ Match found: PR #${pr.number}`);
-            #     break;
-            #   }
-            # }
             for (const pr of prs) {
                 console.log(`Checking PR #${pr.number}: ${pr.head.ref} -> ${pr.base.ref}`);
 
