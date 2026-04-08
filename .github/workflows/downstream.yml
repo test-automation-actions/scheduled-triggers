@@ -18,37 +18,75 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Find PR from commit
+      # - name: Find PR from commit
+      #   id: find_pr
+      #   uses: actions/github-script@v7
+      #   with:
+      #     script: |
+      #       const sha = context.payload.workflow_run.head_sha;
+
+      #       const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         commit_sha: sha
+      #       });
+
+      #       if (!prs || prs.length === 0) {
+      #         core.setOutput("run", "false");
+      #         return;
+      #       }
+
+      #       for (const pr of prs) {
+      #         if (
+      #           pr.merged_at &&
+      #           pr.head.ref === 'develop' &&
+      #           pr.base.ref.startsWith('release-')
+      #         ) {
+      #           console.log(`Matched merged PR #${pr.number}`);
+      #           core.setOutput("run", "true");
+      #           return;
+      #         }
+      #       }
+
+      #       core.setOutput("run", "false");
+      - name: Find PR
         id: find_pr
         uses: actions/github-script@v7
         with:
           script: |
-            const sha = context.payload.workflow_run.head_sha;
+            const source = 'develop';
+            const prefix = 'release-';
 
-            const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+            const branch = context.payload.workflow_run?.head_branch;
+
+            console.log(`Workflow triggered from branch: ${branch}`);
+
+            let shouldRun = false;
+
+            // Get recently closed PRs (includes merged)
+            const { data: prs } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              commit_sha: sha
+              state: "closed",
+              per_page: 5
             });
 
-            if (!prs || prs.length === 0) {
-              core.setOutput("run", "false");
-              return;
-            }
-
             for (const pr of prs) {
+              console.log(`Checking PR: ${pr.head.ref} -> ${pr.base.ref}, merged: ${pr.merged_at}`);
+
               if (
                 pr.merged_at &&
-                pr.head.ref === 'develop' &&
-                pr.base.ref.startsWith('release-')
+                pr.head.ref === source &&
+                pr.base.ref.startsWith(prefix) &&
+                pr.base.ref === branch
               ) {
-                console.log(`Matched merged PR #${pr.number}`);
-                core.setOutput("run", "true");
-                return;
+                shouldRun = true;
+                console.log(`✅ Match found: PR #${pr.number}`);
+                break;
               }
             }
 
-            core.setOutput("run", "false");
+            core.setOutput("run", shouldRun.toString());
 
       - name: Print triggering pipeline name
         if: steps.find_pr.outputs.run == 'true'
