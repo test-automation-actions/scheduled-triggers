@@ -77,8 +77,7 @@ jobs:
               if (
                 pr.merged_at &&
                 pr.head.ref === source &&
-                pr.base.ref.startsWith(prefix) &&
-                pr.base.ref === branch
+                pr.base.ref.startsWith(prefix)
               ) {
                 shouldRun = true;
                 console.log(`✅ Match found: PR #${pr.number}`);
