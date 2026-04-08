@@ -57,7 +57,9 @@ jobs:
             const source = 'develop';
             const prefix = 'release-';
 
-            const branch = context.payload.workflow_run?.head_branch;
+            const branch = context.payload.workflow_run.head_branch;
+
+            const sha = context.payload.workflow_run.head_sha;
 
             console.log(`Workflow triggered from branch: ${branch}`);
 
@@ -67,23 +69,35 @@ jobs:
             const { data: prs } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              head: `${context.repo.owner}:${source}`,
               state: "closed",
-              per_page: 1
+              per_page: 5
             });
 
             for (const pr of prs) {
-              console.log(`Checking PR: ${pr.head.ref} -> ${pr.base.ref}, merged: ${pr.merged_at}`);
+                console.log(`Checking PR #${pr.number}: ${pr.head.ref} -> ${pr.base.ref}`);
 
-              if (
-                pr.merged_at &&
-                pr.head.ref === source &&
-                pr.base.ref.startsWith(prefix)
-              ) {
-                shouldRun = true;
-                console.log(`✅ Match found: PR #${pr.number}`);
-                break;
+                if (!pr.merged_at) continue;
+                if (!pr.base.ref.startsWith(prefix)) continue;
+
+                // 🔥 Check if commit exists in this PR
+                const { data: commits } = await github.rest.pulls.listCommits({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pr.number,
+                  per_page: 100
+                });
+
+                const match = commits.some(c => c.sha === sha);
+
+                console.log(`SHA match for PR #${pr.number}: ${match}`);
+
+                if (match) {
+                  shouldRun = true;
+                  console.log(`✅ Exact match found: PR #${pr.number}`);
+                  break;
+                }
               }
-            }
 
             core.setOutput("run", shouldRun.toString());
 
