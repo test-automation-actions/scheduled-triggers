@@ -16,6 +16,7 @@ on:
       - develop
       - 'release-*'
       - 'master'
+      - 'feature/release-'
   create:
 
 jobs:
