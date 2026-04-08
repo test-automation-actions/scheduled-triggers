@@ -67,6 +67,7 @@ jobs:
             const { data: prs } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              head: `${context.repo.owner}:${source}`,
               state: "closed",
               per_page: 1
             });
