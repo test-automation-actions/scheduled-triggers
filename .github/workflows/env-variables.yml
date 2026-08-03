@@ -37,3 +37,8 @@ jobs:
           
           # Secrets are automatically masked by GitHub Actions runner logs
           echo "DB Password retrieved (length): ${#ENV_DB_PASSWORD}"
+      # Option 2: Print all GitHub Environment / Repo Variables (vars context)
+      - name: Print GitHub Vars Context
+        run: |
+          echo "=== GitHub Vars Context ==="
+          echo '${{ toJSON(vars) }}'
