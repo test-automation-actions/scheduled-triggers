@@ -1,0 +1,39 @@
+name: Run to Specific Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: 'Select Target Environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+
+jobs:
+  test-execution:
+    runs-on: ubuntu-latest
+
+    # KEY SETTING: Scopes secrets and variables to the specified GitHub environment
+    environment: ${{ inputs.target_env }} 
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Access Environment Secrets and Variables
+        env:
+          # Reads from Environment Variables (vars)
+          ENV_API_URL: ${{ vars.API_URL }}
+          
+          # Reads from Environment Secrets (secrets)
+          ENV_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          echo "Currently executing in environment: ${{ inputs.target_env }}"
+          echo "API URL configured for this env: $ENV_API_URL"
+          
+          # Secrets are automatically masked by GitHub Actions runner logs
+          echo "DB Password retrieved (length): ${#ENV_DB_PASSWORD}"
