@@ -2,8 +2,8 @@ name: Scheduled Trigger Time Test
 
 on:
   schedule:
-    - cron: "40 2 * * *"    # Trigger every 10 minutes
-      timezone: 'America/Chicago'
+    - cron: "25 14 * * *"    # Trigger every 10 minutes
+      timezone: "Asia/Kolkata"
   workflow_dispatch:       # Allow manual trigger
 
 jobs:
