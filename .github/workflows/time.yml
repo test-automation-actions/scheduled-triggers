@@ -1,0 +1,28 @@
+name: Scheduled Trigger Time Test
+
+on:
+  schedule:
+    - cron: "20 2 * * *"  # Trigger every 10 minutes
+      timezone: 'America/Chicago'
+  workflow_dispatch:       # Allow manual trigger
+
+jobs:
+  trigger-workflows:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      GITHUB_ORG: test-automation-actions  # <-- Update this with your GitHub org/user
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Print
+        run: |
+          echo "UTC:"
+          date -u '+%Y-%m-%d %H:%M:%S %Z'
+      
+          echo "Central Time:"
+          TZ="America/Chicago" date '+%Y-%m-%d %H:%M:%S %Z %z'
+      
