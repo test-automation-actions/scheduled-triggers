@@ -2,7 +2,7 @@ name: Scheduled Trigger Time Test
 
 on:
   schedule:
-    - cron: "20 2 * * *"  # Trigger every 10 minutes
+    - cron: "40 2 * * *"    # Trigger every 10 minutes
       timezone: 'America/Chicago'
   workflow_dispatch:       # Allow manual trigger
 
